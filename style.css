@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: #0b1b3a;
+  color: #fff;
+}
+
+header {
+  padding: 14px 18px;
+  background: #0b3b8c;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.wrap {
+  padding: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  color: #111;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+  font-size: 16px;
+}
+
+th {
+  background: #f2f5ff;
+  color: #1a2a57;
+  text-align: left;
+  font-size: 15px;
+}
+
+.muted {
+  color: #666;
+}
