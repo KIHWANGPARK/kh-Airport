@@ -1,4 +1,4 @@
-const socket = io("https://YOUR-SERVER-URL"); 
+const socket = io("https://kh-server.onrender.com/"); 
 
 const titleEl = document.getElementById("title");
 const tbody = document.getElementById("tbody");
