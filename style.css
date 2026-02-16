@@ -42,3 +42,17 @@ th {
 .muted {
   color: #666;
 }
+
+
+
+td.workCell {
+  white-space: pre-wrap;      
+  word-break: break-word;
+}
+
+
+td.workerCell {
+  white-space: pre-line;      
+  line-height: 1.35;
+  font-weight: 700;         
+}
