@@ -44,10 +44,11 @@ socket.on("state:update", (state) => {
       <td>${escapeHtml(r.time)}</td>
       <td>${escapeHtml(r.spot)}</td>
 
-      <!-- ✅ 작업사항: CSS에서 pre-wrap 적용하면 줄바꿈 유지됨 -->
+      <!-- ✅ 작업사항: CSS에서 pre-wrap 적용하면 줄바꿈 유지됨
+      <td>${escapeHtml(r.note || "-")}</td> -->
       <td class="workCell">${escapeHtml(r.work)}</td>
 
-      <td>${escapeHtml(r.note || "-")}</td>
+      
 
       <!-- ✅ 작업자: 4명씩 줄바꿈 -->
       <td class="workerCell">${escapeHtml(formatWorkers(r.worker))}</td>
