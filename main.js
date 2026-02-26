@@ -13,16 +13,28 @@ function formatWorkers4PerLine(workersArr) {
   for (let i = 0; i < cleaned.length; i += 4) {
     lines.push(cleaned.slice(i, i + 4).join(" "));
   }
-  return lines.join("\n"); // Display에서 \n을 줄바꿈으로 보이게 처리
+  return lines.join("\n");
 }
 
-// 혹시 worker가 문자열로 올 수도 있으니 방어적으로 처리
 function normalizeWorkers(r) {
-  if (Array.isArray(r.workers)) return r.workers; // ✅ 신버전(권장)
+  if (Array.isArray(r.workers)) return r.workers;
   if (typeof r.worker === "string") {
     return r.worker.split(/\s+/).map(s => s.trim()).filter(Boolean);
   }
   return [];
+}
+
+// ✅ dep/arr 시간 꺼내기 (신버전 depTime/arrTime 우선, 없으면 time에서 파싱)
+function getDepArrTime(r) {
+  const dep = String(r?.depTime ?? "").trim();
+  const arr = String(r?.arrTime ?? "").trim();
+  if (dep && arr) return { dep, arr };
+
+  const t = String(r?.time ?? "").trim();
+  const m = t.match(/^(\d{2}:\d{2})\s*~\s*(\d{2}:\d{2})$/);
+  if (m) return { dep: m[1], arr: m[2] };
+
+  return { dep: escapeHtml(t), arr: "" }; // 혹시 단일 문자열이면 dep에만 표시
 }
 
 socket.on("state:update", (state) => {
@@ -31,7 +43,6 @@ socket.on("state:update", (state) => {
   const rows = state?.rows || [];
 
   if (rows.length === 0) {
-    // ✅ 비고 컬럼 제거 후 5컬럼 기준(colspan=5)
     tbody.innerHTML = `
       <tr>
         <td class="muted" colspan="5">표시할 항목이 없습니다.</td>
@@ -43,11 +54,13 @@ socket.on("state:update", (state) => {
     const workersArr = normalizeWorkers(r);
     const workersText = formatWorkers4PerLine(workersArr);
 
-    // ✅ 작업사항/작업자 모두 줄바꿈 표시되게 pre-wrap 사용
+    const { dep, arr } = getDepArrTime(r);
+    const timeHtml = arr ? `${escapeHtml(dep)}<br>${escapeHtml(arr)}` : `${escapeHtml(dep)}`;
+
     return `
       <tr>
         <td><b>${escapeHtml(r.aircraft ?? "")}</b></td>
-        <td>${escapeHtml(r.time ?? "")}</td>
+        <td>${timeHtml}</td>
         <td>${escapeHtml(r.spot ?? "")}</td>
         <td class="workCell">${escapeHtml(r.work ?? "")}</td>
         <td class="workerCell">${escapeHtml(workersText)}</td>
@@ -63,12 +76,3 @@ function escapeHtml(str) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
 }
-
-/*
-✅ 같이 적용하면 좋은 Display style.css 수정(참고)
------------------------------------------------
-th:nth-child(4), td.workCell { width: 260px; }  // 작업사항 줄이기
-th:nth-child(5), td.workerCell { width: 340px; } // 작업자 늘리기
-
-td.workCell, td.workerCell { white-space: pre-wrap; }
-*/
