@@ -55,12 +55,14 @@ socket.on("state:update", (state) => {
     const workersText = formatWorkers4PerLine(workersArr);
 
     const { dep, arr } = getDepArrTime(r);
-    const timeHtml = arr ? `${escapeHtml(dep)}<br>${escapeHtml(arr)}` : `${escapeHtml(dep)}`;
+    const timeText = arr ? `${dep} / ${arr}` : `${dep}`;
+    // const timeHtml = arr ? `${escapeHtml(dep)}<br>${escapeHtml(arr)}` : `${escapeHtml(dep)}`;
 
     return `
       <tr>
         <td><b>${escapeHtml(r.aircraft ?? "")}</b></td>
-        <td>${timeHtml}</td>
+        
+        <td>${escapeHtml(timeText)}</td>
         <td>${escapeHtml(r.spot ?? "")}</td>
         <td class="workCell">${escapeHtml(r.work ?? "")}</td>
         <td class="workerCell">${escapeHtml(workersText)}</td>
