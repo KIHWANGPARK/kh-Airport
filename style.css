@@ -11,9 +11,23 @@ header {
   font-weight: 800;
   font-size: 20px;
 }
-
+.wrap itemWrap{
+  text-align: center;
+}
+.wrap itemWrap table tr{
+  text-align: center;
+}
 .wrap {
   padding: 14px;
+}
+/* ✅ ITEM 현황 표: A~H 헤더 가운데 정렬 */
+.itemWrap thead tr:nth-child(2) th {
+  text-align: center;
+}
+
+/* ✅ (원하면) ITEM 현황 값(td)도 가운데 정렬 */
+.itemWrap tbody td {
+  text-align: center;
 }
 
 table {
@@ -55,4 +69,30 @@ td.workerCell {
   white-space: pre-line;      
   line-height: 1.35;
   font-weight: 700;         
+}
+
+.workCell {
+  padding: 0; /* 줄 내부 padding으로 처리 */
+}
+
+.workLine {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5e5e5; /* 얇은 회색 */
+  line-height: 1.4;
+}
+
+/* 마지막 줄은 선 제거 */
+.workLine:last-child {
+  border-bottom: none;
+}
+
+
+.itemWrap { margin-top: 22px; }
+
+/* (선택) ITEM 현황 타이틀바 */
+.itemWrap th[colspan="8"]{
+  background: #0b3b8c;
+  color: #fff;
+  font-weight: 900;
+  font-size: 16px;
 }
